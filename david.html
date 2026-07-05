@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>davidstarOS · use linux stupid!</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: #0a0e14;
+            color: #c0c5ce;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 16px;
+            line-height: 1.6;
+            padding: 2rem 1rem;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 880px;
+            width: 100%;
+        }
+
+        .ascii-header {
+            font-family: 'Courier New', Courier, monospace;
+            white-space: pre;
+            font-size: 14px;
+            line-height: 1.3;
+            color: #a7adba;
+            margin-bottom: 0.5rem;
+            overflow-x: auto;
+        }
+
+        .ascii-header .highlight {
+            color: #d19a66;
+        }
+
+        .ascii-header .dim {
+            color: #5a6a7a;
+        }
+
+        .navbar {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            border-bottom: 1px solid #3b3f4a;
+            padding-bottom: 0.6rem;
+            margin-bottom: 1.8rem;
+            font-size: 0.95rem;
+        }
+
+        .navbar a {
+            color: #98a3b3;
+            text-decoration: none;
+            margin-right: 1.2rem;
+            transition: color 0.2s;
+        }
+
+        .navbar a:hover {
+            color: #d19a66;
+            text-decoration: underline;
+        }
+
+        .navbar .brand {
+            color: #d19a66;
+            font-weight: bold;
+        }
+
+        .main-title {
+            font-size: 2.6rem;
+            font-weight: bold;
+            color: #d19a66;
+            letter-spacing: 2px;
+            margin-bottom: 0.2rem;
+        }
+
+        .subtitle {
+            color: #98a3b3;
+            font-size: 1.1rem;
+            border-left: 3px solid #d19a66;
+            padding-left: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .quote-box {
+            background-color: #131a22;
+            border-left: 4px solid #d19a66;
+            padding: 1rem 1.5rem;
+            margin: 1.8rem 0;
+            font-style: italic;
+            color: #b5bdc8;
+            border-radius: 0 6px 6px 0;
+        }
+
+        .quote-box .author {
+            display: block;
+            text-align: right;
+            margin-top: 0.4rem;
+            font-style: normal;
+            color: #98a3b3;
+            font-size: 0.9rem;
+        }
+
+        .section {
+            margin-top: 2.8rem;
+            scroll-margin-top: 1rem;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #d19a66;
+            border-bottom: 1px dashed #3b3f4a;
+            padding-bottom: 0.3rem;
+            margin-bottom: 1.2rem;
+        }
+
+        .section-title .num {
+            color: #6b7a8a;
+            font-weight: normal;
+            margin-right: 0.5rem;
+        }
+
+        .section p {
+            margin-bottom: 1rem;
+        }
+
+        .section ul, .section ol {
+            margin-left: 1.8rem;
+            margin-bottom: 1.2rem;
+        }
+
+        .section li {
+            margin-bottom: 0.4rem;
+        }
+
+        .code-block {
+            background-color: #131a22;
+            border: 1px solid #2b323d;
+            border-radius: 6px;
+            padding: 1rem 1.5rem;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            white-space: pre;
+            color: #b5bdc8;
+            margin: 1rem 0;
+        }
+
+        .code-block .comment {
+            color: #6b7a8a;
+        }
+
+        .code-block .highlight {
+            color: #d19a66;
+        }
+
+        .pkg-list {
+            columns: 2 200px;
+            column-gap: 2rem;
+            background-color: #131a22;
+            padding: 1rem 1.5rem;
+            border-radius: 6px;
+            border: 1px solid #2b323d;
+            font-size: 0.9rem;
+        }
+
+        .pkg-list span {
+            display: inline-block;
+            margin-right: 0.8rem;
+        }
+
+        .badge {
+            display: inline-block;
+            background-color: #1d2733;
+            color: #d19a66;
+            padding: 0.1rem 0.6rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+            margin-left: 0.4rem;
+        }
+
+        .footer {
+            margin-top: 3.5rem;
+            border-top: 1px solid #2b323d;
+            padding-top: 1.5rem;
+            font-size: 0.85rem;
+            color: #6b7a8a;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        .footer a {
+            color: #98a3b3;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            color: #d19a66;
+            text-decoration: underline;
+        }
+
+        @media (max-width: 600px) {
+            .navbar {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .navbar a {
+                margin-right: 0.8rem;
+                margin-bottom: 0.2rem;
+            }
+            .main-title {
+                font-size: 2rem;
+            }
+            .pkg-list {
+                columns: 1;
+            }
+            .ascii-header {
+                font-size: 11px;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <div class="ascii-header">
+        <span class="highlight">⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣼⣧⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀</span>
+        <span class="highlight">⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣼⡿⢿⣷⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀</span>
+        <span class="highlight">⠀⠀⠀⠀⠀⣀⣀⣀⣀⣀⣀⢀⣾⡿⣁⣈⣿⣷⣀⣀⣀⣀⣀⣀⣀⠀⠀⠀⠀⠀</span>
+        <span class="highlight">⠀⠀⠀⠀⠀⠙⣿⣿⠿⠿⢏⣾⡟⠽⠿⠿⠿⢿⣿⡿⠿⠿⣿⣿⠏⠀⠀⠀⠀⠀</span>
+        <span class="highlight">⠀⠀⠀⠀⠀⠀⠘⣿⣧⢠⣾⡟⠀⠀⠀⠀⠀⠀⢻⣿⡄⣴⣿⠋⠀⠀⠀⠀⠀⠀</span>
+        <span class="highlight">⠀⠀⠀⠀⠀⠀⠀⠘⣿⣯⠛⠀⠀⠀⠀⠀⠀⠀⠀⢻⣿⡜⠃⠀⠀⠀⠀⠀⠀⠀</span>
+        <span class="highlight">⠀⠀⠀⠀⠀⠀⠀⢠⣏⣿⣧⡀⠀⠀⠀⠀⠀⠀⠀⣴⡽⣿⣄⠀⠀⠀⠀⠀⠀⠀</span>
+        <span class="highlight">⠀⠀⠀⠀⠀⠀⣰⣿⠏⠈⢿⣷⡀⠀⠀⠀⠀⢀⣼⡿⠁⠹⣿⣆⠀⠀⠀⠀⠀⠀</span>
+        <span class="highlight">⠀⠀⠀⠀⠀⣰⣿⣿⣾⣿⣿⣿⣿⣿⣿⣿⣟⣾⡿⣽⣿⣷⣿⣿⣦⠀⠀⠀⠀⠀</span>
+        <span class="highlight">⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⢳⣶⡄⢀⣾⡿⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀</span>
+        <span class="highlight">⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢻⣿⣾⡟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀</span>
+        <span class="highlight">⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠻⡟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀</span>
+        <span class="highlight">⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀</span>
+        <br>
+        <span class="dim">+------------------------------------------------------------------------------+</span>
+        <span class="dim">|      davidstar OS                                  (Created by blck & ninja)   |</span>
+        <span class="dim">|                                                                                |</span>
+        <span class="dim">|          An Arch-based Linux(R) distribution for the x86_64 architecture       |</span>
+        <span class="dim">|          with a focus on simplicity, sustainability and user freedom.          |</span>
+        <span class="dim">|          .--------------------------------------------------------.            |</span>
+        <span class="dim">|          |    fuck the proprietary software, use linux stupid!    |            |</span>
+        <span class="dim">|          '--------------------------------------------------------'            |</span>
+        <span class="dim">+------------------------------------------------------------------------------+</span>
+    </div>
+
+    <div class="navbar">
+        <div>
+            <span class="brand">davidstarOS</span>
+            <span style="color:#6b7a8a; margin:0 0.5rem;">·</span>
+            <a href="#overview">Overview</a>
+            <a href="#repositories">Repositories</a>
+            <a href="#package-system">Package System</a>
+            <a href="#package-manager">Package Manager</a>
+            <a href="#wiki">Wiki</a>
+        </div>
+        <div>
+        </div>
+    </div>
+
+    <div class="section" id="overview">
+        <div class="section-title"><span class="num">[001]</span> Overview</div>
+        <p>
+            <strong>davidstarOS</strong> is an Arch-based Linux distribution 
+            with a strong focus on simplicity, transparency and user control. 
+            The project was created by blck and ninja who also act as its 
+            sole developers and BDFLs [0].
+        </p>
+        <p>
+            The distribution is designed to be maintainable by a small team 
+            and to this end has no infrastructure, backend or monetary running 
+            costs. Further, all installations of davidstarOS contain everything 
+            needed to continue its development.
+        </p>
+        <p>
+            The user is provided with three things.
+        </p>
+        <ul>
+            <li><strong>The Official Repositories</strong> — An extensible base 
+                including a fully X11-less Wayland environment, modern web browser, 
+                media player and everything needed for this system to rebuild 
+                (and update) itself (in under 150 packages).
+            </li>
+            <li><strong>The Package Management System</strong> — A pleasant to 
+                work with and concise package format powered by the Arch 
+                package manager (pacman).
+            </li>
+            <li><strong>The Freedom To Go It Alone</strong> — Users can choose 
+                to maintain their system themselves thus freeing them from all 
+                external influence. The system then belongs to the user and they 
+                become totally self-reliant.
+            </li>
+        </ul>
+        <p>
+            <span class="badge">Arch-based</span> 
+            <span class="badge">Rolling release</span>
+            <span class="badge">pacman</span>
+            <span class="badge">Wayland</span>
+        </p>
+    </div>
+
+    <div class="section" id="repositories">
+        <div class="section-title"><span class="num">[002]</span> The Official Repositories</div>
+        <p>
+            The problem with monolithic repositories is that they have no clear 
+            end. They have infinite growth possibility, very broad scope and 
+            rely on volunteer effort to keep everything fresh. They become harder 
+            to maintain over time and unless their growth is checked, will 
+            eventually become unsustainable.
+        </p>
+        <p>
+            davidstarOS's repositories are instead designed to be small and 
+            understandable. Instead of attempting to package the world they act 
+            as an extensible base which users can build upon to suit their needs.
+        </p>
+        <p>
+            To best illustrate, here is the entire thing (145 components) (2026).
+        </p>
+        <div class="pkg-list">
+            <span>base</span> <span>base-devel</span> <span>linux</span> <span>linux-firmware</span>
+            <span>grub</span> <span>efibootmgr</span> <span>networkmanager</span> <span>iwd</span>
+            <span>vim</span> <span>git</span> <span>curl</span> <span>wget</span>
+            <span>openssh</span> <span>sudo</span> <span>doas</span> <span>firefox</span>
+            <span>chromium</span> <span>mpv</span> <span>ffmpeg</span> <span>alsa-utils</span>
+            <span>pipewire</span> <span>wireplumber</span> <span>sway</span> <span>wayland</span>
+            <span>wlroots</span> <span>foot</span> <span>alacritty</span> <span>neovim</span>
+            <span>emacs</span> <span>gcc</span> <span>clang</span> <span>rust</span>
+            <span>go</span> <span>python</span> <span>nodejs</span> <span>npm</span>
+            <span>yarn</span> <span>docker</span> <span>podman</span> <span>buildah</span>
+            <span>zsh</span> <span>fish</span> <span>tmux</span> <span>screen</span>
+            <span>htop</span> <span>btop</span> <span>ncdu</span> <span>duf</span>
+            <span>ripgrep</span> <span>fd</span> <span>fzf</span> <span>bat</span>
+            <span>exa</span> <span>lsd</span> <span>zoxide</span> <span>atuin</span>
+            <span>starship</span> <span>oh-my-zsh</span> <span>powerlevel10k</span>
+        </div>
+        <p style="margin-top:0.8rem;">
+            The distribution explicitly excludes systemd, pulseaudio, dbus, 
+            polkit, and all desktop environments. This software is either 
+            too complex or otherwise out of scope.
+        </p>
+        <p>Further reading: @/wiki</p>
+    </div>
+
+    <div class="section" id="package-system">
+        <div class="section-title"><span class="num">[003]</span> Package System</div>
+        <p>
+            The system is based around the Arch Linux package management 
+            system using <strong>pacman</strong> as the primary package manager. 
+            Packages are distributed as binary archives (.pkg.tar.zst) and 
+            installed via the standard pacman commands.
+        </p>
+        <p>
+            The distribution provides a curated set of packages from the 
+            Arch Linux repositories, with additional custom packages built 
+            and maintained by the davidstarOS team.
+        </p>
+        <div class="code-block">
+            <span class="comment"># Basic pacman commands</span>
+            <span class="highlight">pacman -Syu</span>        <span class="comment"># Update system</span>
+            <span class="highlight">pacman -S</span> <span class="comment">[package]</span>  <span class="comment"># Install package</span>
+            <span class="highlight">pacman -R</span> <span class="comment">[package]</span>  <span class="comment"># Remove package</span>
+            <span class="highlight">pacman -Q</span>            <span class="comment"># List installed packages</span>
+            <span class="highlight">pacman -Ss</span> <span class="comment">[query]</span>   <span class="comment"># Search for packages</span>
+        </div>
+        <p>
+            Each package contains the compiled binaries, configuration files 
+            and metadata needed for installation. The package format is 
+            standardized across the Arch Linux ecosystem.
+        </p>
+        <p>Further reading: @/wiki/package-system</p>
+    </div>
+
+    <div class="section" id="package-manager">
+        <div class="section-title"><span class="num">[004]</span> Package Manager</div>
+        <p>
+            The package manager (<strong>pacman</strong>) is a powerful and 
+            efficient package management system used by Arch Linux and its 
+            derivatives. It is written in C and designed for speed and 
+            simplicity.
+        </p>
+        <p>
+            Pacman uses a simple command-line interface with a consistent 
+            syntax. The main operations are:
+        </p>
+        <div class="code-block">
+            <span class="comment"># pacman [operation] [options] [packages]</span>
+            
+            <span class="highlight">pacman -S</span>      <span class="comment"># Install package(s)</span>
+            <span class="highlight">pacman -R</span>      <span class="comment"># Remove package(s)</span>
+            <span class="highlight">pacman -U</span>      <span class="comment"># Upgrade/install from local file</span>
+            <span class="highlight">pacman -Q</span>      <span class="comment"># Query package database</span>
+            <span class="highlight">pacman -Sy</span>     <span class="comment"># Update repository databases</span>
+            <span class="highlight">pacman -Syu</span>    <span class="comment"># Update the entire system</span>
+            <span class="highlight">pacman -Ss</span>     <span class="comment"># Search for packages</span>
+            <span class="highlight">pacman -Si</span>     <span class="comment"># Display package information</span>
+            <span class="highlight">pacman -Sc</span>     <span class="comment"># Remove unused packages</span>
+        </div>
+        <p>
+            Additionally, the distribution includes helper scripts for 
+            common tasks and a custom repository for davidstarOS-specific 
+            packages.
+        </p>
+        <p>Further reading: @/wiki/package-manager</p>
+    </div>
+
+    <div class="section" id="wiki">
+        <div class="section-title"><span class="num">[005]</span> Software Distribution Model</div>
+        <p>
+            The distribution is "rolling release" [1] (install once, update 
+            perpetually) with binary packages provided by the Arch Linux 
+            infrastructure. Updates to the distribution are distributed via 
+            the standard pacman package manager.
+        </p>
+        <p>
+            This model gives the user access to the vast Arch Linux repository 
+            while also maintaining a curated base system with a focus on 
+            simplicity and minimalism.
+        </p>
+    </div>
+
+    <div class="section">
+        <div class="section-title"><span class="num">[006]</span> Further Reading</div>
+        <ul>
+            <li><a href="#" style="color:#d19a66;">@/answers</a> — Answers to the most common questions.</li>
+            <li><a href="#" style="color:#d19a66;">@/wiki</a> — General distribution documentation.</li>
+            <li><a href="#" style="color:#d19a66;">@/wiki/package-system</a> — The package management system in detail.</li>
+            <li><a href="#" style="color:#d19a66;">@/wiki/package-manager</a> — The package manager's documentation.</li>
+            <li><a href="#" style="color:#d19a66;">@/wiki/website</a> — About the website itself.</li>
+            <li><a href="#" style="color:#d19a66;">@/contact</a> — Get in touch with davidstarOS.</li>
+        </ul>
+        <p style="margin-top:0.5rem;">
+            [0] https://en.wikipedia.org/wiki/Benevolent_dictator_for_life<br>
+            [1] https://en.wikipedia.org/wiki/Rolling_release
+        </p>
+    </div>
+
+    <div class="footer">
+        <div>
+            blck &amp; ninja (C) 2025-2026
+        </div>
+        <div>
+            <span style="color:#6b7a8a;">The registered trademark Linux(R) is used pursuant to a sublicense from the Linux Foundation, the exclusive licensee of Linus Torvalds, owner of the mark on a worldwide basis.</span>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

@@ -1,3 +1,3 @@
 # davidstar OS
 
-davidstar OS is a project founded by @blckblckblck and @nino007ecse (github names) as an inside joke
+davidstar OS is a project founded by @blckblckblck, @nino007ecse and @Paswordona (github names) as an inside joke
